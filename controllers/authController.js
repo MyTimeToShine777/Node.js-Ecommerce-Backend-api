@@ -90,6 +90,28 @@ const loginUser = async(req, res) => {
     if (!email || !password) {
         throw new BadRequestError("Please Provide Email and Password");
     }
+
+    //Check for User Email
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new UnauthenticatedError("Invalid Credentials");
+    }
+    const isPasswordCorrect = await user.comparePassword(password);
+    if (user && isPasswordCorrect) {
+        //Generate Token
+        const accesstoken = user.generateToken();
+
+        //For combining user and token
+        let userData = {...user._doc };
+        let Data = {
+            ...userData,
+            accesstoken,
+        };
+
+        res.status(StatusCodes.OK).json(Data);
+    } else {
+        throw new UnauthenticatedError("Invalid Credentials");
+    }
 };
 
 export {

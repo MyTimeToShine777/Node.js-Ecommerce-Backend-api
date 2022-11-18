@@ -2,27 +2,25 @@ import express from "express";
 const router = express.Router();
 
 import {
-    registerUser,
-    loginUser,
-    googleProfileAuthenticate,
-    googleAuthenticate,
-    githubProfileAuthenticate,
-    githubAuthenticate,
-    error,
-    success,
-} from "../controllers/authController.js";
-//GoogleSocial controllers
-router.route("/google").get(googleProfileAuthenticate);
-router.route("/google/callback").get(googleAuthenticate);
-//GitHub Social Controllers
-router.route("/github").get(githubProfileAuthenticate);
-router.route("/github/callback").get(githubAuthenticate);
+    updateUserInfo,
+    deleteUser,
+    getUser,
+    getAllUsers,
+    statsUsers,
+} from "../controllers/userController.js";
 
-router.route("/success").get(success);
-router.route("/error").get(error);
+import {
+    verifyTokenAndAuthorization,
+    verifyTokenAndAdmin,
+} from "../middleware/authMiddleware.js";
 
 //User Controllers
-router.route("/register").post(registerUser);
-router.route("/login").post(loginUser);
+router
+    .route("/:id")
+    .put(verifyTokenAndAuthorization, updateUserInfo)
+    .delete(verifyTokenAndAuthorization, deleteUser);
+router.route("/find/:id").get(verifyTokenAndAdmin, getUser);
+router.route("/").get(verifyTokenAndAdmin, getAllUsers);
+router.route("/stats").get(verifyTokenAndAdmin, statsUsers);
 
 export default router;

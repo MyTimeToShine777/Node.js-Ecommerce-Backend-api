@@ -15,9 +15,11 @@ import session from "express-session";
 //File imports
 import connectDB from "./db/connect.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import "./controllers/passport.js";
 import notFoundMiddleware from "./middleware/notFoundMiddleware.js";
 import errorHandlerMidddleware from "./middleware/errorHandlerMidddleware.js";
+import { verifyToken } from "./middleware/authMiddleware.js";
 
 //Middleware
 app.use(express.json());
@@ -59,7 +61,8 @@ app.use(passport.session());
 // );
 
 //Routes
-app.use("/api/auth", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", verifyToken, userRoutes);
 
 //ErrorMiddleware
 app.use(notFoundMiddleware);
