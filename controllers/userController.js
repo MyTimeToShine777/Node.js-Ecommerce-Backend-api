@@ -1,7 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/User.js";
-import { BadRequestError } from "../errors/errors.js";
-import { UnauthenticatedError, ForbiddenError } from "../errors/errors.js";
+import { UnauthenticatedError } from "../errors/errors.js";
 import bcrypt from "bcryptjs";
 
 //Update User Details
@@ -26,6 +25,7 @@ const updateUserInfo = async(req, res) => {
             $set: req.body,
         }, {
             new: true,
+            runValidators: true,
         }
     );
     res.status(StatusCodes.OK).json(updatedUser);

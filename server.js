@@ -14,8 +14,12 @@ import session from "express-session";
 
 //File imports
 import connectDB from "./db/connect.js";
-import userRoutes from "./routes/userRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import stripeRoutes from "./routes/stripeRoutes.js";
 import "./controllers/passport.js";
 import notFoundMiddleware from "./middleware/notFoundMiddleware.js";
 import errorHandlerMidddleware from "./middleware/errorHandlerMidddleware.js";
@@ -51,18 +55,16 @@ app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Cors
-// app.use(
-//     cors({
-//         origin: "http//localhost:3000",
-//         methods: "GET, POST, PUT, DELETE, PATCH",
-//         credentials: true,
-//     })
-// );
+//Cors;
+app.use(cors());
 
 //Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", verifyToken, userRoutes);
+app.use("/api/products", verifyToken, productRoutes);
+app.use("/api/carts", verifyToken, cartRoutes);
+app.use("/api/orders", verifyToken, orderRoutes);
+app.use("/api/checkout", stripeRoutes);
 
 //ErrorMiddleware
 app.use(notFoundMiddleware);

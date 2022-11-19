@@ -14,7 +14,7 @@ import {
     verifyTokenAndAdmin,
 } from "../middleware/authMiddleware.js";
 
-//User Controllers
+//User Routes
 router
     .route("/:id")
     .put(verifyTokenAndAuthorization, updateUserInfo)

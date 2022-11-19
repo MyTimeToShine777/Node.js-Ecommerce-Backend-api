@@ -12,11 +12,11 @@ import {
     success,
 } from "../controllers/authController.js";
 
-//GoogleSocial controllers
+//GoogleSocial Routes
 router.route("/google").get(googleProfileAuthenticate);
 router.route("/google/callback").get(googleAuthenticate);
 
-//GitHub Social Controllers
+//GitHub Social Routes
 router.route("/github").get(githubProfileAuthenticate);
 router.route("/github/callback").get(githubAuthenticate);
 
@@ -24,7 +24,7 @@ router.route("/github/callback").get(githubAuthenticate);
 router.route("/success").get(success);
 router.route("/error").get(error);
 
-//User auth Controllers
+//User auth Routes
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 

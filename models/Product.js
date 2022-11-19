@@ -5,6 +5,7 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: [true, "Please add a Title"],
         trim: true,
+        unique: true,
     },
     desc: {
         type: String,
